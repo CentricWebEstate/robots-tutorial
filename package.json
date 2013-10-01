@@ -1,0 +1,8 @@
+{
+	"name":"js-wires-tutorial",
+	"Description":"A javascript interpretation of the livewires tutorial for python",
+	"version":"0.0.01a",
+	"dependencies": {
+		"node-serve":"latest"
+	}
+}
