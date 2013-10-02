@@ -1,6 +1,10 @@
 _selfOnce('wires.main');
 
-Wires = (function () {
+
+
+Module.Wires = {};
+
+Module.Wires.Main = (function () {
 	this.context = window.document.createElement('canvas');
 	window.document.body.appendChild(this.context);
 

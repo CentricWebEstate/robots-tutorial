@@ -1,8 +1,10 @@
 include ('wires');
 
-Main = {
+var Wires = Module.Wires;
+
+Module.Main = {
 	__init__ : function () {
 		log('Initialising Game');
-		Wires.testWires();
+		Wires.Test.testWires();
 	}
 }

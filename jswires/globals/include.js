@@ -1,9 +1,7 @@
 define(function () {
-	var magic = [];
-	var context = {};
-
 	String.prototype.in = function (arr)
 	{
+		if(Object.prototype.toString.call(arr) !== '[object Array]') return;
 		value = this.toString();
 		for(var i = 0; i<arr.length; i++)
 		{
@@ -13,9 +11,11 @@ define(function () {
 		}
 		return false;
 	}
-
+	a = function(){};
 
 	return {
+		magic : new Array(),
+		context: {},
 		include : function (toImport) {
 			if(typeof toImport !== 'string')
 			{
@@ -23,14 +23,12 @@ define(function () {
 				return;
 			}
 
-			// this.addMagic = magic.push.bind(this);
-
-			if(toImport.in(magic))
+			if(toImport.in(this.magic))
 			{
 				return;
 			}
 			var requestObj = (function(s,a){for(a=[a="Msxml2.XMLHTTP",a+".3.0",a+".6.0"];;)try{s=a.pop();return new(s?ActiveXObject:XMLHttpRequest)(s)}catch(e){}}),
-				request = new requestObj();
+				request = new requestObj(),
 				map = {
 					wires : 'jswires'
 				};
@@ -49,7 +47,8 @@ define(function () {
 					switch (request.status)
 					{
 						case 200:
-							return eval.call(context, request.responseText);
+							eval('(function(Module){ ' + request.responseText + ';; _setAppContext(Module)}).call(new Function(), _getAppContext())');
+							return ;
 						case 404:
 							if (triedIndex != true)
 							{
@@ -70,6 +69,8 @@ define(function () {
 			request.onreadystatechange = evalResponse;
 			request.send();
 		},
-		_selfOnce : function (toImport) { magic.push(toImport); }
+		_selfOnce : function (toImport) { this.magic.push(toImport); },
+		_getAppContext : function () {return this.context; },
+		_setAppContext : function (context) {return this.context = context; }
 	}
 });
